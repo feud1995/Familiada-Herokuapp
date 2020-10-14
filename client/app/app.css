@@ -1,0 +1,29 @@
+@import '~bootstrap/dist/css/bootstrap.css';
+@import '~bootstrap-social/bootstrap-social.css';
+
+/**
+ * App-wide Styles
+ */
+
+.browserupgrade {
+  margin: 0.2em 0;
+  background: #ccc;
+  color: #000;
+  padding: 0.2em 0;
+}
+
+.bigPixel {
+  padding: 2px;
+}
+
+.smallPixel {
+  border: 1px solid #333;
+  width: 9px;
+  height: 9px;
+}
+
+.smallPixelPointsDashboard {
+  border: 1px solid #333;
+  width: 12px;
+  height: 12px;
+}

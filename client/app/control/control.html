@@ -1,0 +1,88 @@
+<div style="text-align: center">
+  <div style="text-align: center">
+    <button ng-click="$ctrl.playIntro()" ng-show="$ctrl.isGameStarting()"><h2>intro</h2></button> 
+    <button ng-click="$ctrl.clearDisplay()" ng-show="!$ctrl.isGameStarting()"><h2>reset</h2></button>
+    <button ng-click="$ctrl.undo()" style="margin-right: 40px"><h2>undo</h2></button> 
+    <button ng-repeat="mltpl in [1, 2, 3]"
+            ng-click="$ctrl.display.multiplier = mltpl"
+            style="margin: 2px"><h2>x{{ mltpl }}</h2></button>
+    <h2 style="display: inline">Currently: <strong style="color: red">{{$ctrl.display.multiplier}}x</strong> stack = </h2> <input type="text" ng-model="$ctrl.display.ptsMiddle" size="4">
+    <br /><br />
+    Question set:
+    <select ng-model="$ctrl.questions" ng-options="qs.questions as qs.name for qs in $ctrl.questionSets" ng-change="$ctrl.clearDisplay()"></select>
+    <br />
+    <ul class="nav nav-tabs">
+      <li ng-repeat="q in $ctrl.questions track by $index"><a href="#" ng-click="$ctrl.newQuestion($index)">Question {{ $index + 1}}</a></li>
+      <li><a href="#" ng-click="$ctrl.startFinal()">Final</a></li>
+    </ul>
+  </div>
+  <br />
+  <div style="text-align: center"
+       ng-repeat="q in $ctrl.questions track by $index"
+       ng-show="$ctrl.isQuestion() && $ctrl.display.currentQuestionIdx == $index">
+    <strong>Question {{ $index + 1 }}: {{ q.question }}</strong><br /><br />
+    <div class="row">
+      <div class="col-xs-4">
+        <button ng-click="$ctrl.clearLeft()">clear</button><br /><br />
+        <button ng-click="$ctrl.leftBigX()">Big X</button><br /><br />
+        <button ng-click="$ctrl.leftX()">X</button><br /><br />
+        <button ng-click="$ctrl.leftXX()">XX</button><br /><br />
+        <button ng-click="$ctrl.leftXXX()">XXX</button><br /><br />
+        <button ng-click="$ctrl.leftWon()">Win!</button> <input type="text" ng-model="$ctrl.display.ptsLeft" size="4"><br /><br />
+      </div>
+      <div class="col-xs-4">
+        <button ng-click="$ctrl.clearBoth()">clear</button><br /><br />
+        <div ng-repeat="ans in q.answers track by $index">
+          <button ng-click="$ctrl.answer($index, ans[0], ans[1])">{{ ans[0] }} -- {{ ans[1] }} pkt</button><br /><br />
+        </div>
+      </div>
+      <div class="col-xs-4">
+        <button ng-click="$ctrl.clearRight()">clear</button><br /><br />
+        <button ng-click="$ctrl.rightBigX()">Big X</button><br /><br />
+        <button ng-click="$ctrl.rightX()">X</button><br /><br />
+        <button ng-click="$ctrl.rightXX()">XX</button><br /><br />
+        <button ng-click="$ctrl.rightXXX()">XXX</button><br /><br />
+        <button ng-click="$ctrl.rightWon()">Win!</button> <input type="text" ng-model="$ctrl.display.ptsRight" size="4"><br /><br />
+      </div>
+    </div>
+  </div>
+
+  <div class="row" ng-show="$ctrl.isFinal()">
+    <button ng-click="$ctrl.playSameAnswer()"><h2>odpowiedź była</h2></button>
+    <button ng-click="$ctrl.playFinalCaptions()"><h2>napisy końcowe</h2></button> 
+    <br /><br />
+    
+    <form name="$ctrl.finalAnswers" novalidate>
+      <div class="col-xs-6">
+        <div ng-repeat="i in [1, 2, 3, 4, 5]">
+         <input type="text" style="font-family: monospace;" size="12" name="ansL{{i}}" value="----" />
+         <input type="text" style="font-family: monospace;" size="3" name="ptsL{{i}}" value="0" /><br />
+         <button ng-click="$ctrl.syncFinalAnswer(i, 'L')">ANS</button>
+         <button ng-click="$ctrl.syncFinalPoints(i, 'L')">PTS</button>
+         <button ng-click="$ctrl.syncFinalAnswerAndPoints(i, 'L')">ANS + PTS</button>
+         <br /><br />
+        </div>
+      </div>
+      <div class="col-xs-6">
+        <div ng-repeat="i in [1, 2, 3, 4, 5]">
+         <input type="text" style="font-family: monospace;" size="12" name="ansR{{i}}" value="----" />
+         <input type="text" style="font-family: monospace;" size="3" name="ptsR{{i}}" value="0" /><br />
+         <!--<button ng-click="$ctrl.noAnswer(i, 'R')">DUPA</button>-->
+         <button ng-click="$ctrl.syncFinalAnswer(i, 'R')">ANS</button>
+         <button ng-click="$ctrl.syncFinalPoints(i, 'R')">PTS</button>
+         <button ng-click="$ctrl.syncFinalAnswerAndPoints(i, 'R')">ANS + PTS</button>
+         <br /><br />
+        </div>
+      </div>
+    </form>
+  </div>
+  <br /><br />
+  <!--<div ng-repeat="row in $ctrl.display.main track by $index" style="text-align: center">
+    <input type="text"
+           ng-model="$ctrl.display.main[$index]"
+           ng-trim="false"
+           ng-change="$ctrl.sendDisplay()"
+           style="font-family: monospace;"
+           size="31" />
+  </div>-->
+</div>
